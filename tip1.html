@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip 1: Añade experiencias interactivas</title>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        #svg-element {
+            margin-top: 220px;
+            margin-bottom: 220px;
+            display: block;
+            width: 680px;
+            height: auto;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title is-1 mt-6">1. Añade experiencias interactivas</h1>
+
+        <p class="is-size-3">Interacciones con el mouse</p>
+        
+        <svg id="svg-element" xmlns="http://www.w3.org/2000/svg" width="861mm" height="250mm" version="1.1" viewBox="0 0 861 250">
+            <g stroke-width=".26458" aria-label="HELLO">
+                <g stroke-width=".070004" aria-label="HELLO">
+                    <path d="m21.398 29.868h26.097v79.065h94.826v-79.065h26.097v192.88h-26.097v-91.855h-94.826v91.855h-26.097z"/>
+                    <path d="m220.35 29.868h121.96v21.962h-95.86v57.102h91.855v21.962h-91.855v69.892h98.185v21.962h-124.28z"/>
+                    <path d="m387.52 29.868h26.097v170.92h93.922v21.962h-120.02z"/>
+                    <path d="m534.93 29.868h26.097v170.92h93.922v21.962h-120.02z"/>
+                    <path d="m751.2 47.567q-28.422 0-45.217 21.187-16.666 21.187-16.666 57.748 0 36.432 16.666 57.619 16.795 21.187 45.217 21.187 28.422 0 44.958-21.187 16.666-21.187 16.666-57.619 0-36.561-16.666-57.748-16.536-21.187-44.958-21.187zm0-21.187q40.566 0 64.854 27.259 24.288 27.13 24.288 72.864 0 45.604-24.288 72.864-24.288 27.13-64.854 27.13-40.695 0-65.112-27.13-24.288-27.13-24.288-72.864 0-45.734 24.288-72.864 24.417-27.259 65.112-27.259z"/>
+                </g>
+            </g>
+        </svg>
+        <script src="js/warp.js"></script>
+        <script>
+            const svg = document.getElementById('svg-element')
+            const warp = new Warp(svg)
+
+            warp.interpolate(6)
+            warp.transform(([x, y]) => [x, y, x, y])
+
+            let count = 100;
+            let offset = 100;
+            svg.addEventListener('mousemove', event => {
+                const mx = event.offsetX * 1.266,
+                      my = event.offsetY * 1.266
+                warp.transform(([ x, y, ox, oy ]) => {
+                    let d = Math.sqrt(Math.pow(mx - ox, 2) + Math.pow(my - oy, 2))
+                    return [
+                        (mx-ox) * Math.exp(d / -50) + ox, 
+                        (my-oy) * Math.exp(d / -50) + oy, 
+                        ox, oy
+                    ]
+                })
+            })
+        </script>
+
+        <pre>
+            &lt;script src="js/warp.js"&gt;&lt;/script&gt;
+            &lt;script&gt;
+                const svg = document.getElementById('svg-element')
+                const warp = new Warp(svg)
+
+                warp.interpolate(6)
+                warp.transform(([x, y]) =&gt; [x, y, x, y])
+
+                let count = 100;
+                let offset = 100;
+                svg.addEventListener('mousemove', event =&gt; {
+                    const mx = event.offsetX * 1.435,
+                        my = event.offsetY * 1.435
+                    warp.transform(([ x, y, ox, oy ]) =&gt; {
+                        let d = Math.sqrt(Math.pow(mx - ox, 2) + Math.pow(my - oy, 2))
+                        return [
+                            (mx-ox) * Math.exp(d / -50) + ox, 
+                            (my-oy) * Math.exp(d / -50) + oy, 
+                            ox, oy
+                        ]
+                    })
+                })
+            &lt;/script&gt;
+        </pre>
+
+
+        <p class="is-size-3 mt-6">Animaciones complejas</p>
+        <div id="particles-js" style="height: 900px"></div>
+        <script src="js/particles.min.js"></script>
+        <script>
+            /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+            particlesJS.load('particles-js', 'js/particlesjs-config.json', function() {
+                console.log('callback - particles.js config loaded');
+            });
+
+        </script>
+        <pre>
+            &lt;script src="js/particles.min.js"&gt;&lt;/script&gt;
+            &lt;script&gt;
+                /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+                particlesJS.load('particles-js', 'js/particlesjs-config.json', function() {
+                    console.log('callback - particles.js config loaded');
+                });
+
+            &lt;/script&gt;
+        </pre>
+
+        <div class="is-flex is-justify-content-space-between my-6">
+            <a class="button is-dark" href="index.html">Anterior</a>
+            <a class="button is-dark" href="tip2.html">Siguiente</a>
+        </div>
+    </div>
+</body>
+</html>

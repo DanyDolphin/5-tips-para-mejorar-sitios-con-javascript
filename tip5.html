@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip 5: Cambia de página sin necesidad de refrescar el sitio</title>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .router-animated {
+            opacity: 0;
+            transform: translate(-50px);
+            transition: all 1s ease;
+        }
+
+        .router-show {
+            opacity: 1;
+            transform: translate(0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title is-1 mt-6">5: Cambia de página sin necesidad de refrescar el sitio</h1>
+
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">Home</a>
+                <a class="navbar-item" href="/about">About</a>
+            </div>
+        </nav>
+        <div class="router-outlet">
+            Loading...
+        </div>
+        <script>
+            /**
+             * obtenido de: https://github.com/praveen-me/simple-vanila-router/blob/master/app.js
+             */
+            const routes = {
+                '/': '/lazy-pages/home.html',
+                '/about': '/lazy-pages/about.html'
+            }
+
+            /**
+             * obtenido de: https://betterprogramming.pub/detecting-the-end-of-css-transition-events-in-javascript-8653ae230dc7
+             */
+            function getTransitionEndEventName() {
+                const transitions = {
+                    "transition": "transitionend",
+                    "OTransition": "oTransitionEnd",
+                    "MozTransition": "transitionend",
+                    "WebkitTransition": "webkitTransitionEnd"
+                }
+                let bodyStyle = document.body.style;
+                for (let transition in transitions) {
+                    if (bodyStyle[transition] != undefined) {
+                        return transitions[transition];
+                    }
+                }
+            }
+
+            const transitionEndEventName = getTransitionEndEventName()
+
+            const outlet = document.querySelector('.router-outlet');
+
+            function navigate(route) {
+                console.log(`navegando a... ${route}`)
+                window.history.pushState(
+                    {},
+                    route,
+                    window.location.origin + route
+                )
+
+                const animatedElements = Array.from(document.querySelectorAll('.router-animated'))
+
+                // creamos promises
+                let delay = 0
+                const animationPromises = animatedElements.map(
+                    (element, i) => new Promise((res, rej) => {
+                        setTimeout(() => element.classList.remove('router-show'), delay)
+                        delay += 100
+                        const callback = event => {
+                            element.removeEventListener(transitionEndEventName, callback)
+                            res();
+                        }
+                        element.addEventListener(transitionEndEventName, callback)
+                    })
+                )
+
+                const fetchPromise = fetch(window.location.origin + routes[route])
+                    .then(response => response.text())
+
+                delay = 0
+                Promise.all([...animationPromises, fetchPromise]).then(results => {
+                    console.log('ya todos los elementos se fueron')
+                    outlet.innerHTML = results[animationPromises.length]
+                    setTimeout(() => {
+                        document.querySelectorAll('.router-animated').forEach(element => {
+                            setTimeout(() => element.classList.add('router-show'), delay)
+                            delay += 100
+                        })
+                    }, 0)
+                })
+            }
+
+            document.querySelectorAll('a').forEach(
+                element => element.onclick = event => {
+                    event.preventDefault();
+                    navigate(element.getAttribute('href'));
+                }
+            )
+
+            navigate('/');
+        </script>
+
+        <pre>
+            &lt;nav class="navbar" role="navigation" aria-label="main navigation"&gt;
+                &lt;div class="navbar-start"&gt;
+                    &lt;a class="navbar-item" href="/"&gt;Home&lt;/a&gt;
+                    &lt;a class="navbar-item" href="/about"&gt;About&lt;/a&gt;
+                &lt;/div&gt;
+            &lt;/nav&gt;
+            &lt;div class="router-outlet"&gt;
+                Loading...
+            &lt;/div&gt;
+    
+            &lt;script&gt;
+                /**
+                 * obtenido de: https://github.com/praveen-me/simple-vanila-router/blob/master/app.js
+                 */
+                const routes = {
+                    '/': '/lazy-pages/home.html',
+                    '/about': '/lazy-pages/about.html'
+                }
+    
+                function navigate(route) {
+                    window.history.pushState(
+                        {},
+                        route,
+                        window.location.origin + route
+                    )
+
+                    // exit animations animations goes here...
+    
+                    const outlet = document.querySelector('.router-outlet');
+                    const fetchPromise = fetch(window.location.origin + routes[route])
+                        .then(response =&gt; response.text())
+                        .then(content =&gt; outlet.innerHTML = content)
+    
+                    // enter animations goes here
+
+                }
+    
+                document.querySelectorAll('a').forEach(
+                    element =&gt; element.onclick = event =&gt; {
+                        event.preventDefault();
+                        navigate(element.getAttribute('href'));
+                    }
+                )
+    
+                navigate('/');
+            &lt;/script&gt;
+        </pre>
+
+
+
+        <div class="is-flex is-justify-content-space-between my-6">
+            <a class="button is-dark" href="tip4.html">Anterior</a>
+        </div>
+    </div>
+</body>
+
+</html>

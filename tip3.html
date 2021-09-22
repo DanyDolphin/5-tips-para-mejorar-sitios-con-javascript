@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip 3: Haz que tu página carge super rápido</title>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title is-1 mt-6">3. Lazy loading: haz que tu página carge super rápido</h1>
+
+        <!--
+            https://wallpapercave.com/wp/3Ruxvgx.jpg
+            http://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-129.jpg
+            https://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-139.jpg
+        -->
+
+        <img src="img/placeholder1.jpg" class="lazy-load" alt="Arboles 1" data-src="https://wallpapercave.com/wp/3Ruxvgx.jpg"/>
+        <img src="img/placeholder2.jpg" class="lazy-load" alt="Arboles 1" data-src="http://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-129.jpg"/>
+        <img src="img/placeholder3.jpg" class="lazy-load" alt="Arboles 1" data-src="https://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-139.jpg"/>
+
+        <script>
+            // basado en: https://imagekit.io/blog/lazy-loading-images-complete-guide/
+            if ("IntersectionObserver" in window) {
+                const lazyloadImages = document.querySelectorAll(".lazy-load");
+                var imageObserver = new IntersectionObserver( 
+                    (entries, observer) => entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            setTimeout(() => {
+                                const image = entry.target;
+                                image.src = image.dataset.src;
+                                image.classList.remove("lazy");
+                                imageObserver.unobserve(image);
+                            }, 1000);
+                        }
+                    })
+                )
+                lazyloadImages.forEach(image => imageObserver.observe(image))
+            }
+        </script>
+
+        <pre>
+            &lt;img src="img/placeholder1.jpg" class="lazy-load" alt="Arboles 1" data-src="https://wallpapercave.com/wp/3Ruxvgx.jpg"/&gt;
+            &lt;img src="img/placeholder2.jpg" class="lazy-load" alt="Arboles 2" data-src="http://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-129.jpg"/&gt;
+            &lt;img src="img/placeholder3.jpg" class="lazy-load" alt="Arboles 3" data-src="https://www.technocrazed.com/wp-content/uploads/2015/12/Tree-wallpaper-to-use-as-background-139.jpg"/&gt;
+
+            &lt;script&gt;
+                // basado en: https://imagekit.io/blog/lazy-loading-images-complete-guide/
+                if ("IntersectionObserver" in window) {
+                    const lazyloadImages = document.querySelectorAll(".lazy-load");
+                    var imageObserver = new IntersectionObserver( 
+                        (entries, observer) =&gt; entries.forEach(entry =&gt; {
+                            if (entry.isIntersecting) {
+                                setTimeout(() =&gt; {
+                                    const image = entry.target;
+                                    image.src = image.dataset.src;
+                                    image.classList.remove("lazy");
+                                    imageObserver.unobserve(image);
+                                }, 1000);
+                            }
+                        })
+                    )
+                    lazyloadImages.forEach(image =&gt; imageObserver.observe(image))
+                }
+            &lt;/script&gt;
+        </pre>
+
+        <div class="is-flex is-justify-content-space-between my-6">
+            <a class="button is-dark" href="tip2.html">Anterior</a>
+            <a class="button is-dark" href="tip4.html">Siguiente</a>
+        </div>
+    </div>
+</body>
+</html>

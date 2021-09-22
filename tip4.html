@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip 4: Agrega componentes interactivos</title>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        .mySwiper {
+            height: 500px;
+            width: 100%
+        }
+        .swiper-slide > img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title is-1 mt-6">4. Agrega componentes interactivos</h1>
+
+        <p class="is-size-3">Usa componentes populares: Swiper</p>
+        <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/>
+
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="img/nala1.jpg" alt="nala1">
+                </div>
+                <div class="swiper-slide">
+                    <img src="img/nala2.jpg" alt="nala2">
+                </div>
+                <div class="swiper-slide">
+                    <img src="img/nala3.jpg" alt="nala3">
+                </div>
+            </div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+        <script>
+            const swiper = new Swiper('.mySwiper', {
+                speed: 400,
+                spaceBetween: 100,
+                loop: true,
+                navigation: {
+                    nextEl: ".swiper-button-next",
+                    prevEl: ".swiper-button-prev",
+                },
+            });
+        </script>
+
+        <pre>
+            &lt;link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css"/&gt;
+
+            &lt;div class="swiper mySwiper"&gt;
+                &lt;div class="swiper-wrapper"&gt;
+                    &lt;div class="swiper-slide"&gt;
+                        &lt;img src="img/nala1.jpg" alt="nala1"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="swiper-slide"&gt;
+                        &lt;img src="img/nala2.jpg" alt="nala2"&gt;
+                    &lt;/div&gt;
+                    &lt;div class="swiper-slide"&gt;
+                        &lt;img src="img/nala3.jpg" alt="nala3"&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;div class="swiper-button-prev"&gt;&lt;/div&gt;
+                &lt;div class="swiper-button-next"&gt;&lt;/div&gt;
+            &lt;/div&gt;
+    
+            &lt;script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"&gt;&lt;/script&gt;
+            &lt;script&gt;
+                const swiper = new Swiper('.mySwiper', {
+                    speed: 400,
+                    spaceBetween: 100,
+                    loop: true,
+                    navigation: {
+                        nextEl: ".swiper-button-next",
+                        prevEl: ".swiper-button-prev",
+                    },
+                });
+            &lt;/script&gt;
+        </pre>
+
+        <p class="is-size-3 mt-6">Reemplaza los componentes por default: Sweetalert2</p>
+
+        <div class="is-flex is-justify-content-center my-6">
+            <button class="button" onclick="normalConfirm()">Alerta normal</button>
+            <button class="button is-dark" onclick="sweetConfirm()">Alerta bonita</button>
+        </div>
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            function normalConfirm() {
+                if (confirm('Quieres proceder?')) 
+                    alert('Perfecto!')
+            }
+
+            function sweetConfirm() {
+                Swal.fire({
+                    title: 'Quieres proceder?',
+                    icon: 'question',
+                    showCancelButton: true
+                }).then(res => {
+                    if (res.isConfirmed)
+                        Swal.fire('Perfecto!','','success')
+                })
+            }
+        </script>
+
+        <pre>
+            &lt;div class="is-flex is-justify-content-center my-6"&gt;
+                &lt;button class="button" onclick="normalConfirm()"&gt;Alerta normal&lt;/button&gt;
+                &lt;button class="button is-dark" onclick="sweetConfirm()"&gt;Alerta bonita&lt;/button&gt;
+            &lt;/div&gt;
+            &lt;script src="//cdn.jsdelivr.net/npm/sweetalert2@11"&gt;&lt;/script&gt;
+            &lt;script&gt;
+                function normalConfirm() {
+                    if (confirm('Quieres proceder?')) 
+                        alert('Perfecto!')
+                }
+    
+                function sweetConfirm() {
+                    Swal.fire({
+                        title: 'Quieres proceder?',
+                        icon: 'question',
+                        showCancelButton: true
+                    }).then(res =&gt; {
+                        if (res.isConfirmed)
+                            Swal.fire('Perfecto!','','success')
+                    })
+                }
+            &lt;/script&gt;
+        </pre>
+
+        <div class="is-flex is-justify-content-space-between my-6">
+            <a class="button is-dark" href="tip3.html">Anterior</a>
+            <a class="button is-dark" href="tip5.html">Siguiente</a>
+        </div>
+    </div>
+</body>
+</html>

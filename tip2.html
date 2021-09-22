@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tip 2: Controla la navegación del usuario</title>
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            object-position: 50% 0;
+        }
+        .big-spaced {
+            margin-top: 300px;
+            margin-bottom: 300px;
+        }
+        .big-text {
+            height: calc(100vh + 5000px);
+            padding-top: calc(50vh - 50px);
+            padding-bottom: calc(50vh - 50px);
+        }
+        .big-text > .scrollable {
+            position: sticky;
+            top: calc(50vh - 50px);
+            overflow-x: hidden;
+            white-space: nowrap;
+        }
+        .big-text > .scrollable > p {
+            font-family: serif;
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title is-1 mt-6">1. Controla la navegación del usuario</h1>
+
+        <p class="is-size-3">Parallax</p>
+
+        <img class="parallax mt-6" src="img/wallpaper.jpg" alt="Wallpaper">
+        <script>
+            const img = document.querySelector('.parallax')
+            document.addEventListener('scroll', event => {
+                const ypos = window.scrollY
+                const yimg = img.offsetTop
+                if (ypos > yimg - window.innerHeight) {
+                    img.style.setProperty('object-position', `50% ${(ypos - yimg) / 2}px`)
+                }
+            })
+        </script>
+        <pre>
+            &lt;img class="parallax mt-6" src="img/wallpaper.jpg" alt="Wallpaper"&gt;
+            &lt;script&gt;
+                const img = document.querySelector('.parallax')
+                document.addEventListener('scroll', event =&gt; {
+                    const ypos = window.scrollY
+                    const yimg = img.offsetTop
+                    if (ypos &gt; yimg - window.innerHeight) {
+                        img.style.setProperty('object-position', `50% ${(ypos - yimg) / 2}px`)
+                    }
+                })
+            &lt;/script&gt;
+        </pre>
+
+        <p class="is-size-3">Scroll suave</p>
+        <div id="one" class="big-spaced is-flex is-justify-content-center">
+            <button onclick="smoothScroll('two')" class="button is-dark">Click me</button>
+        </div>
+        <div id="two" class="big-spaced is-flex is-justify-content-center">
+            <button onclick="smoothScroll('one')" class="button is-dark">There you are!</button>
+        </div>
+        <script>
+            function smoothScroll(id) {
+                document.getElementById(id).scrollIntoView({behavior: 'smooth'})
+            }
+        </script>
+        <pre>
+            &lt;script&gt;
+                function smoothScroll(id) {
+                    document.getElementById(id).scrollIntoView({behavior: 'smooth'})
+                }
+            &lt;/script&gt;
+        </pre>
+
+        <p class="is-size-3 mt-6">Cambio de orientación</p>
+
+        <div class="big-text">
+            <div class="scrollable">
+                <p>egestas erat imperdiet sed euismod nisi porta lorem mollis aliquam</p>
+            </div>
+        </div>
+        <script>
+            // basado en: https://alvarotrigo.com/blog/scroll-horizontally-with-mouse-wheel-vanilla-java/
+            const bigText = document.querySelector('.big-text')
+            const scrolleable = document.querySelector('.scrollable')
+            window.addEventListener('wheel', event => {
+                const ypos = window.scrollY
+                const ytext = bigText.offsetTop
+                const rect = bigText.getBoundingClientRect()
+                if (rect.top <= 0 && rect.bottom > document.documentElement.clientHeight) {
+                    console.log(event.deltaY)
+                    scrolleable.scrollBy({
+                        left: event.deltaY,
+                        behavior: 'smooth'
+                    })
+                }
+            })
+        </script>
+        <pre>
+            &lt;script&gt;
+                // basado en: https://alvarotrigo.com/blog/scroll-horizontally-with-mouse-wheel-vanilla-java/
+                const bigText = document.querySelector('.big-text')
+                const scrolleable = document.querySelector('.scrollable')
+                window.addEventListener('wheel', event =&gt; {
+                    const ypos = window.scrollY
+                    const ytext = bigText.offsetTop
+                    const rect = bigText.getBoundingClientRect()
+                    if (rect.top &lt;= 0 && rect.bottom &gt; document.documentElement.clientHeight) {
+                        console.log(event.deltaY)
+                        scrolleable.scrollBy({
+                            left: event.deltaY,
+                            behavior: 'smooth'
+                        })
+                    }
+                })
+            &lt;/script&gt;
+        </pre>
+
+        <div class="is-flex is-justify-content-space-between my-6">
+            <a class="button is-dark" href="tip1.html">Anterior</a>
+            <a class="button is-dark" href="tip3.html">Siguiente</a>
+        </div>
+    </div>
+</body>
+</html>
