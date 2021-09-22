@@ -75,13 +75,19 @@
         </div>
         <script>
             function smoothScroll(id) {
-                document.getElementById(id).scrollIntoView({behavior: 'smooth'})
+                window.scrollTo({
+                    top: document.getElementById(id).offsetTop - 150,
+                    behavior: 'smooth'
+                })
             }
         </script>
         <pre>
             &lt;script&gt;
                 function smoothScroll(id) {
-                    document.getElementById(id).scrollIntoView({behavior: 'smooth'})
+                    window.scrollTo({
+                        top: document.getElementById(id).offsetTop - 150,
+                        behavior: 'smooth'
+                    })
                 }
             &lt;/script&gt;
         </pre>
